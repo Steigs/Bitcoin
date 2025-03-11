@@ -21,7 +21,16 @@ async function fetchBitcoinPrice() {
     }
 }
 
-
+function togglePriceVisability(){
+    // Get the element that diplays price
+    const priceElement = document.getElementById("price");
+    // Toggle between hiding and showing the price
+    if (priceElement.style.display === "none") {
+        priceElement.style.display = "inline";
+    } else {
+        priceElement.style.display = "none";
+    }
+}
 
 
 function updateDateTime() {
@@ -37,6 +46,25 @@ function updateDateTime() {
 
 // Wait for the DOM to be fully loaded before setting up event listeners
 document.addEventListener("DOMContentLoaded", function() {
+    // Get references to the relevant DOM elements
+    const currencySelector = document.getElementById("currenty-selector");
+    const toggleButton = document.getElementById("toggle-button");
+    const refreshButton = document.getElementById("refresh-button");
+
+    // Set up event listener for currency selection changes
+    currencySelector.addEventListener("change", function () {
+        // Update the current currency when the selection changes
+        currentCurrency = this.value;
+        // Fetch and display the price for the new currency
+        fetchBitcoinPrice();
+    });
+
+    // Set up event listener for the toggle visability button 
+    toggleButton.addEventListener("click", togglePriceVisability);
+
+    // Set up event listener for the refresh button
+    refreshButton.addEventListener("click", fetchBitcoinPrice);
+
     setInterval(fetchBitcoinPrice, 3000); //Update Price every 3 seconds
     setInterval(updateDateTime, 1000);      // Update date/time every second
 
