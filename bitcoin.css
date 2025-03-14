@@ -1,0 +1,23 @@
+body {
+    text-align: center;
+    background-color: rgb(190, 124, 1);
+    color: black;
+    
+}
+
+span {
+    font-size: larger;
+    color: purple; 
+
+}
+select {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: purple;
+ 
+
+button {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: purple;
+}
