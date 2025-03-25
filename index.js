@@ -1,5 +1,6 @@
 // Global variable to store the currently selected curreny
 let currentCurrency = "USD";
+let currentGoldCurrency = "USD";
 
 async function fetchBitcoinPrice() {
     // Contruct the API URL with the current currency
@@ -18,6 +19,19 @@ async function fetchBitcoinPrice() {
     } catch (error) {
         // Log any errors that occur during the fetch operation
         console.error("Error fetching Bitcoin Price",error);
+    }
+}
+
+async function fetchGoldPrice() {
+    const apiURL = `https://api.metals-api.com/v1/latest?access_key=YOUR_API_KEY&base=${currentGoldCurrency}&symbols=XAU`;
+
+    try {
+        let response = await fetch(apiURL);
+        let json = await response.json();
+        const goldPrice = json.rates.XAU;
+        document.getElementById("gold-price").textContent = `${currentGoldCurrency} ${goldPrice}`;
+    } catch (error) {
+        console.error("Error fetching Gold Price", error);
     }
 }
 
@@ -51,6 +65,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const toggleButton = document.getElementById("toggle-button");
     const refreshButton = document.getElementById("refresh-button");
 
+    const goldCurrencySelector = document.getElementById("gold-currency-selector");
+    const goldToggleButton = document.getElementById("gold-toggle-button");
+    const goldRefreshButton = document.getElementById("gold-refresh-button");
+
     // Set up event listener for currency selection changes
     currencySelector.addEventListener("change", function () {
         // Update the current currency when the selection changes
@@ -65,6 +83,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // Set up event listener for the refresh button
     refreshButton.addEventListener("click", fetchBitcoinPrice);
 
+
+
+    
     setInterval(fetchBitcoinPrice, 3000); //Update Price every 3 seconds
     setInterval(updateDateTime, 1000);      // Update date/time every second
 
@@ -72,3 +93,20 @@ document.addEventListener("DOMContentLoaded", function() {
     fetchBitcoinPrice();
     updateDateTime();
 });
+
+    goldCurrencySelector.addEventListener("change", function () {
+        currentGoldCurrency = this.value;
+        fetchGoldPrice();
+});
+
+    goldToggleButton.addEventListener("click", function() {
+        togglePriceVisibility("gold-price");
+});
+
+    setInterval(fetchGoldPrice, 3000); //Update Price every 3 seconds
+    setInterval(updateDateTime, 1000);      // Update date/time every second
+
+    //Initiate calls to display date immediately
+    fetchGoldPrice();
+    updateDateTime();
+    
