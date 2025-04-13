@@ -23,7 +23,7 @@ async function fetchBitcoinPrice() {
 }
 
 async function fetchGoldPrice() {
-    const apiURL = `https://api.metals-api.com/v1/latest?access_key=YOUR_API_KEY&base=${currentGoldCurrency}&symbols=XAU`;
+    const apiURL = `https://api.api-ninjas.com/v1/goldpricehistorical${currentGoldCurrency}`;
 
     try {
         let response = await fetch(apiURL);
